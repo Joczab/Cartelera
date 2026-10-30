@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FiltrosPeliculas } from '../components/FiltrosPeliculas'
 import { GrillaPeliculas } from '../components/GrillaPeliculas'
-import { PELICULAS_EJEMPLO } from '../data/peliculas-ejemplo'
 import { type Genero, type Orden, type Pelicula, type PeliculaResumen } from '../models/pelicula'
 import { EstadoVacio } from '@/shared/components/EstadoVacio'
 import { SearchX } from 'lucide-react'
@@ -34,7 +33,7 @@ export function CatalogoPeliculas({ esFavorita, onFavorito }: Props) {
   const [generos, setGeneros ] = useState<Genero[]>([])
 
 
-  const visibles = PELICULAS_EJEMPLO.filter((p) => p.title.toLowerCase().includes(busqueda.toLowerCase()))
+  /* const visibles = PELICULAS_EJEMPLO.filter((p) => p.title.toLowerCase().includes(busqueda.toLowerCase()))*/
   //* TODO M4: cambiar PELICULAS_EJEMPLO por TMDB (useEffect + servicio) con carga y error
   //* TODO M5: useState para género, orden y página. Al cambiar un filtro, volver a la página 1
   const formato = new Intl.NumberFormat('es-VE')
@@ -87,7 +86,7 @@ export function CatalogoPeliculas({ esFavorita, onFavorito }: Props) {
     setPagina(1)
   }
   function cambiarOrden(o: Orden) {
-    setBusqueda(o)
+    setOrden(o)
     setPagina(1)
   }
   function irAPaginaNueva(nueva: number){

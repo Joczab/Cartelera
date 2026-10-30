@@ -2,7 +2,7 @@
 // Un hook es una función que empieza con "use" y usa otros hooks.
 //
 // Firma que vamos a escribir:
-//   useConsulta<T>(clave: string, consultar: (signal: AbortSignal) => Promise<T>)
+export function useConsulta<T>(clave: string, consultar: (signal: AbortSignal) => Promise<T>)
 //   devuelve { datos, error, cargando, reintentar }
 //
 // `clave` describe QUÉ se pide (ej. "descubrir|28|popularity.desc|2"). Si cambia, se vuelve a pedir.

@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FiltrosPeliculas } from '../components/FiltrosPeliculas'
 import { GrillaPeliculas } from '../components/GrillaPeliculas'
 import { type Orden, type PeliculaResumen } from '../models/pelicula'
 import { EstadoVacio } from '@/shared/components/EstadoVacio'
 import { SearchX } from 'lucide-react'
 import { MAX_PAGINAS } from '@/shared/models/pagina'
-import { buscar, descubrir, obtenerGeneros } from '../services/peliculas.service'
 import { MensajeError } from '@/shared/components/MensajeError'
 import { EsqueletoGrilla } from '@/shared/components/EsqueletoGrilla'
-import axios from 'axios'
 import { Paginador } from '@/shared/components/Paginador'
 import { usePeliculas, useGeneros } from '../hooks/usePeliculas'
 
@@ -33,13 +31,11 @@ export function CatalogoPeliculas({ esFavorita, onFavorito }: Props) {
   const [intento, setIntento ] = useState(0)
   const [generos, setGeneros ] = useState<Genero[]>([]) */
 
-  const {datos, respuesta, error, cargando, reintentar } = usePeliculas({ busqueda, genero, orden, pagina})
+  const {datos: respuesta, error, cargando, reintentar } = usePeliculas({ busqueda, genero, orden, pagina})
   const generos = useGeneros()
-  /* const visibles = PELICULAS_EJEMPLO.filter((p) => p.title.toLowerCase().includes(busqueda.toLowerCase()))*/
-  //* TODO M4: cambiar PELICULAS_EJEMPLO por TMDB (useEffect + servicio) con carga y error
-  //* TODO M5: useState para género, orden y página. Al cambiar un filtro, volver a la página 1
-  const formato = new Intl.NumberFormat('es-VE')
 
+  const formato = new Intl.NumberFormat('es-VE')
+/* 
   useEffect(() => {
     const control = new AbortController()
 
@@ -77,7 +73,7 @@ export function CatalogoPeliculas({ esFavorita, onFavorito }: Props) {
       .catch(() => {})
 
     return () => control.abort()
-  }, [])
+  }, []) */
 
   function cambiarBusqueda(texto: string) {
     setBusqueda(texto)
@@ -118,7 +114,7 @@ export function CatalogoPeliculas({ esFavorita, onFavorito }: Props) {
       />
       {
         error ? (
-          <MensajeError mensaje={error} onReintentar={() => setIntento(intento + 1)} />
+          <MensajeError mensaje={error} onReintentar={reintentar} />
         ) : !respuesta ? (
           <EsqueletoGrilla/>
         ) : respuesta.results.length === 0 ? (

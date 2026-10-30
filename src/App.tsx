@@ -8,7 +8,7 @@ import { useState } from 'react'
 export default function App() {
   // M1 · Levantar el estado: el Header (contador) y las tarjetas (corazón) necesitan las favoritas,
   // así que viven en el padre común y bajan por props.
-  const {favoritas, esFavorita, alternar} = useFavoritas()
+  const {favoritas} = useFavoritas()
   // M2 · Otra memoria independiente: qué pantalla se está viendo
   const [vista, setVista] = useState<Vista>('catalogo')
 
@@ -20,9 +20,9 @@ export default function App() {
         {/* M2 · Renderizado condicional: según la vista se pinta una página u otra.
             En M8 esto lo reemplaza React Router. */}
         {vista === 'catalogo' ? (
-          <CatalogoPeliculas esFavorita={esFavorita} onFavorito={alternar} />
+          <CatalogoPeliculas />
         ) : (
-          <MisFavoritas favoritas={favoritas} onFavorito={alternar} onIrAlCatalogo={() => setVista('catalogo')} />
+          <MisFavoritas onIrAlCatalogo={() => setVista('catalogo')} />
         )}
       </main>
 

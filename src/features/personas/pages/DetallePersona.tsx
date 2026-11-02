@@ -1,14 +1,14 @@
-import { ArrowLeft, Cake, MapPin } from "lucide-react";
-import { Link, useParams } from "react-router";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { imagen } from "@/core/config/tmdb";
-import { useFavoritas } from "@/core/favoritas/favoritas-context";
-import { GrillaPeliculas } from "@/features/peliculas/components/GrillaPeliculas";
-import { EsqueletoGrilla } from "@/shared/components/EsqueletoGrilla";
-import { MensajeError } from "@/shared/components/MensajeError";
-import { usePersona } from "../hooks/usePersona";
+import { ArrowLeft, Cake, MapPin } from "lucide-react"
+import { Link, useParams } from "react-router"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
+import { imagen } from "@/core/config/tmdb"
+import { useFavoritas } from "@/core/favoritas/favoritas-context"
+import { GrillaPeliculas } from "@/features/peliculas/components/GrillaPeliculas"
+import { EsqueletoGrilla } from "@/shared/components/EsqueletoGrilla"
+import { MensajeError } from "@/shared/components/MensajeError"
+import { usePersona } from "../hooks/usePersona"
 
 function iniciales(nombre: string) {
   return nombre

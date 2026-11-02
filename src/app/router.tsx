@@ -12,6 +12,7 @@ import { NoEncontrada } from '@/core/layout/NoEncontrada'
 import { CatalogoPeliculas } from '@/features/peliculas/pages/CatalogoPeliculas'
 import { DetallePelicula } from '@/features/peliculas/pages/DetallePelicula'
 import { MisFavoritas } from '@/features/favoritas/pages/MisFavoritas'
+import { DetallePersona } from '@/features/personas/pages/DetallePersona'
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
             {path: '/peliculas', Component: CatalogoPeliculas},
             {path: '/peliculas/:id', Component: DetallePelicula},
             {path: '/favoritas', Component: MisFavoritas},
+            {path: '/personas/:id', Component: DetallePersona},
             {path: '*', Component: NoEncontrada}
         ]
     }

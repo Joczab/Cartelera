@@ -28,5 +28,3 @@ export function useGeneros(){
 export function usePelicula (id:number){
     return useConsulta(`pelicula|${id}`, (signal) => obtenerDetalle(id, signal))
 }
-
-export {}

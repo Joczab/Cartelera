@@ -15,11 +15,13 @@ interface Props {
 // Componente de presentación: todo le llega por props; no pide datos ni tiene estado.
 // Lo que en Angular era output(), aquí es una función que llega como prop (onFavorito).
 export function PeliculaCard({ pelicula, favorita, onFavorito }: Props) {
+  // imagen() arma la URL completa del póster, o devuelve null si la película no tiene
   const poster = imagen(pelicula.poster_path)
 
   return (
     <article className="group relative">
-      
+      {/* M8 · Todo el póster y el título son un enlace al detalle: /peliculas/:id.
+          Link navega sin recargar la página (a diferencia de <a href>). */}
       <Link to={`/peliculas/${pelicula.id}`} className="block">
       
         <div className="aspect-2/3 overflow-hidden rounded-xl bg-card ring-1 ring-border transition group-hover:ring-primary/60">
@@ -47,6 +49,7 @@ export function PeliculaCard({ pelicula, favorita, onFavorito }: Props) {
         </div>
       </Link>
 
+      {/* El corazón va FUERA del Link (y encima, con absolute): así tocarlo marca favorita sin navegar al detalle */}
       {/* M1: onAlternar recibe una FUNCIÓN. () => onFavorito(pelicula), nunca onFavorito(pelicula) a secas */}
       <BotonFavorito activo={favorita} onAlternar={() => onFavorito(pelicula)} className="absolute top-2 right-2" />
     </article>

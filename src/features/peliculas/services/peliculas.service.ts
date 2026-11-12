@@ -47,11 +47,13 @@ export async function obtenerDetalle(id: number, signal?: AbortSignal) {
   return data
 }
 
+// Lista de géneros para el filtro. TMDB la envuelve en { genres: [...] }; devolvemos solo el arreglo
 export async function obtenerGeneros(signal?: AbortSignal) {
   const { data } = await tmdb.get<{ genres: Genero[] }>('/genre/movie/list', { signal })
   return data.genres
 }
 
+// Fecha de hoy en el formato que pide TMDB: "2026-11-12"
 function hoy() {
   return new Date().toISOString().slice(0, 10)
 }

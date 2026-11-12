@@ -15,10 +15,18 @@ interface Props {
   onOrden: (orden: Orden) => void
 }
 
+// Barra de filtros: buscador, género y orden. Componente de presentación: no pide datos.
+// Recibe los valores actuales por props y avisa al padre (CatalogoPeliculas) con las funciones on...
 //* TODO M3: recibir también busqueda y onBuscar
 export function FiltrosPeliculas({busqueda, genero, orden, generos, onGenero, onOrden, onBuscar }: Props) {
+  // Dos datos distintos a propósito:
+  //   `texto`    -> lo que el usuario va escribiendo, letra por letra (estado local del input controlado)
+  //   `busqueda` -> lo que ya se buscó de verdad (vive en el padre)
+  // Así no se lanza una petición por cada tecla: solo al enviar el formulario.
   //* TODO M3: el texto del input en su propio useState (input controlado)
   const [ texto, setTexto ] = useState(busqueda)
+  // preventDefault evita que el navegador recargue la página al enviar el formulario.
+  // trim() quita espacios al inicio y al final.
   //* TODO M3: enviar(e): e.preventDefault() y avisar al padre con onBuscar(texto.trim())
   function enviar(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -28,6 +36,7 @@ export function FiltrosPeliculas({busqueda, genero, orden, generos, onGenero, on
   // TMDB no deja combinar búsqueda por texto con género u orden
   const buscando = busqueda !== '' //* TODO M3: busqueda !== ''
 
+  // Botón X: vacía el input y además le avisa al padre para volver al listado normal
   function limpiar() {
     setTexto('')
     onBuscar('')
@@ -39,6 +48,7 @@ export function FiltrosPeliculas({busqueda, genero, orden, generos, onGenero, on
       <form onSubmit={enviar} className="flex min-w-64 flex-1 gap-2" role="search">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+          {/* Input controlado: su valor ES el estado `texto`, y cada tecla lo actualiza con onChange */}
           <Input value={texto} onChange={(e) => setTexto(e.target.value)} placeholder="Buscar por título…" aria-label="Buscar película" className="pl-9" />
           { texto && (
             <button type="button" onClick={limpiar} className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground hover:text-foreground" >

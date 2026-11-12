@@ -10,6 +10,7 @@ import { EsqueletoGrilla } from "@/shared/components/EsqueletoGrilla"
 import { MensajeError } from "@/shared/components/MensajeError"
 import { usePersona } from "../hooks/usePersona"
 
+// "Keanu Reeves" -> "KR": primera letra de las dos primeras palabras (para el avatar sin foto)
 function iniciales(nombre: string) {
   return nombre
     .split(" ")
@@ -18,6 +19,8 @@ function iniciales(nombre: string) {
     .join("");
 }
 
+// "1964-09-02" -> "2 de septiembre de 1964".
+// timeZone "UTC" evita que la fecha se corra un día por la zona horaria del navegador.
 function fecha(texto: string) {
   return new Date(texto).toLocaleDateString("es-VE", {
     dateStyle: "long",
@@ -28,8 +31,11 @@ function fecha(texto: string) {
 // Página de una persona: /personas/:id
 export function DetallePersona() {
   // PARTE 1 · Leer el :id de la URL y pedir los datos (igual que DetallePelicula)
+  // useParams devuelve el id como texto; Number() lo convierte. Si la URL trae algo inválido
+  // (ej. /personas/abc) el id es NaN, TMDB responde 404 y se muestra el mensaje de error.
   const { id } = useParams();
   const { datos: persona, error, reintentar } = usePersona(Number(id));
+  // Las películas de "Conocido por" también tienen corazón: usan el mismo Context de favoritas
   const { esFavorita, alternar } = useFavoritas();
 
   // PARTE 2 · "Conocido por" = DATO DERIVADO.
@@ -98,6 +104,7 @@ export function DetallePersona() {
             </div>
           </div>
 
+          {/* Si la persona no tiene películas, no se pinta ni el título de la sección */}
           {conocidoPor.length > 0 && (
             <div className="mt-12">
               <h2 className="mb-4 text-2xl font-bold tracking-tight">

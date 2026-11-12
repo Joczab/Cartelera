@@ -1,6 +1,9 @@
 import { Outlet } from 'react-router'
 import { Header } from './Header'
 
+// Estructura común de todas las páginas: Header arriba, contenido en el medio y footer abajo.
+// <Outlet /> es el "hueco" donde React Router coloca la página que corresponde a la URL actual
+// (catálogo, detalle, favoritas, persona o 404). Así el Header no se vuelve a crear al navegar.
 export function Layout () {
     return (
         <div className="flex min-h-dvh flex-col">

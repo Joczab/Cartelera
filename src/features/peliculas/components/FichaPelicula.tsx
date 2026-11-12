@@ -15,6 +15,7 @@ interface Props {
   onFavorito: () => void
 }
 
+// 142 -> "2 h 22 min"; 45 -> "45 min"; null o 0 -> null (y entonces no se pinta)
 function duracion(minutos: number | null) {
   if (!minutos) return null
   const h = Math.floor(minutos / 60)
@@ -24,8 +25,10 @@ function duracion(minutos: number | null) {
 // Ficha completa de una película. Ya viene hecha: solo pinta lo que le llega por props.
 // La usa la página de detalle en M8.
 export function FichaPelicula({ pelicula: peli, favorita, onFavorito }: Props) {
+  // Datos derivados de las props: se calculan en cada render, no hace falta estado
   const fondo = imagen(peli.backdrop_path, 'w1280')
   const poster = imagen(peli.poster_path, 'w500')
+  // Se prefiere un video de YouTube de tipo "Trailer"; si no hay, cualquier video de YouTube (teaser, clip...)
   const trailer = peli.videos.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer') ?? peli.videos.results.find((v) => v.site === 'YouTube')
 
   return (
@@ -66,6 +69,7 @@ export function FichaPelicula({ pelicula: peli, favorita, onFavorito }: Props) {
         </div>
       </div>
 
+      {/* Solo los 12 primeros actores (TMDB los manda por orden de importancia). Cada uno enlaza a su página */}
       <div className="mt-12">
         <Reparto actores={peli.credits.cast.slice(0, 12)} />
       </div>

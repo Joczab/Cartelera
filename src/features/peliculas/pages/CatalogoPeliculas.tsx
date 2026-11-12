@@ -15,17 +15,26 @@ import { useFavoritas } from '@/core/favoritas/favoritas-context'
 // Filtros, Grilla y Paginador solo pintan y avisan.
 export function CatalogoPeliculas() {
 
+  // M7 · Las favoritas ya no llegan por props: se leen del Context
   const { esFavorita, alternar } = useFavoritas()
+  // Estado de la pantalla: los 4 filtros que el usuario puede cambiar.
+  // `genero` empieza en undefined, que significa "todos los géneros".
   const [busqueda, setBusqueda ] = useState('')
   const [genero, setGenero] = useState<number>()
   const [orden, setOrden] = useState<Orden>('popularity.desc')
   const [pagina, setPagina] = useState(1)
 
+  // M6 · Los datos ya no se piden aquí con useEffect: los hooks lo hacen por nosotros.
+  // Cada vez que cambia un filtro, el componente se vuelve a pintar, el hook recibe valores nuevos y vuelve a pedir.
+  // `datos: respuesta` renombra la propiedad: dentro de esta página se llama `respuesta`.
   const {datos: respuesta, error, cargando, reintentar } = usePeliculas({ busqueda, genero, orden, pagina})
   const generos = useGeneros()
 
+  // Formatea números con separador de miles: 12345 -> "12.345"
   const formato = new Intl.NumberFormat('es-VE')
-  
+
+  // Al cambiar cualquier filtro se vuelve a la página 1: la página 7 de una búsqueda
+  // no tiene sentido (o ni existe) en otra búsqueda distinta.
   function cambiarBusqueda(texto: string) {
     setBusqueda(texto)
     setPagina(1)
@@ -38,11 +47,14 @@ export function CatalogoPeliculas() {
     setOrden(o)
     setPagina(1)
   }
+  // Cambiar de página sube el scroll para que el usuario vea el inicio de la grilla nueva
   function irAPaginaNueva(nueva: number){
     setPagina(nueva)
     window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
+  // Dato derivado (no es estado): TMDB puede decir que hay miles de páginas pero solo deja pedir hasta la 500.
+  // `?.` y `??` cubren el momento en que todavía no hay respuesta.
   const totalPaginas = Math.min(respuesta?.total_pages ?? 0, MAX_PAGINAS)
 
   return (
@@ -63,6 +75,11 @@ export function CatalogoPeliculas() {
         onGenero={cambiarGenero}
         onOrden={cambiarOrden}
       />
+      {/* Renderizado condicional en cadena: se pinta UNA de cuatro cosas, en este orden de prioridad:
+          1. error      -> mensaje con botón Reintentar
+          2. sin datos  -> esqueleto (solo en la primera carga)
+          3. lista vacía-> "Sin resultados"
+          4. hay datos  -> grilla + paginador (semitransparentes mientras llega la página siguiente) */}
       {
         error ? (
           <MensajeError mensaje={error} onReintentar={reintentar} />

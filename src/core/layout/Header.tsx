@@ -12,9 +12,12 @@ interface Props {
   onCambiarVista: (vista: Vista) => void
 } */
 
-// Componente de presentación: no guarda nada, todo le llega por props y avisa con onCambiarVista
+// Barra superior, visible en todas las páginas (la pinta Layout).
+// Ya no recibe props: el contador sale del Context y la "vista activa" sale de la URL (React Router).
 export function Header() {
+  // Del Context solo necesitamos la lista para mostrar cuántas favoritas hay
   const { favoritas } = useFavoritas();
+  // useMatch devuelve un objeto si la URL actual es /favoritas y null si no: sirve de "¿estoy aquí?"
   const enFavoritas = useMatch("/favoritas");
 
   return (

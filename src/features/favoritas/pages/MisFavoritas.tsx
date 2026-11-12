@@ -5,7 +5,8 @@ import { GrillaPeliculas } from "@/features/peliculas/components/GrillaPeliculas
 import { useFavoritas } from "@/core/favoritas/favoritas-context";
 import { EstadoVacio } from "@/shared/components/EstadoVacio";
 
-// La misma Grilla, ahora con datos que no vienen de la API sino del estado de App
+// La misma Grilla, ahora con datos que no vienen de la API sino del Context de favoritas
+// (guardadas en localStorage, por eso aquí no hay petición, carga ni error).
 export function MisFavoritas() {
   const { favoritas, alternar } = useFavoritas();
 
@@ -24,6 +25,8 @@ export function MisFavoritas() {
       ) : (
         <GrillaPeliculas
           peliculas={favoritas}
+          // Todo lo que se muestra aquí es favorita por definición: el corazón siempre va activo.
+          // Al tocarlo, alternar la quita de la lista y desaparece de esta pantalla.
           esFavorita={() => true}
           onFavorito={alternar}
         />

@@ -46,14 +46,17 @@ export interface DetallePelicula extends Omit<Pelicula, 'genre_ids'> {
 // Lo mínimo que guardamos en favoritos (no hace falta volver a pedirlo a la API)
 export type PeliculaResumen = Pick<Pelicula, 'id' | 'title' | 'poster_path' | 'release_date' | 'vote_average'>
 
+// Unión de literales: `orden` solo puede ser uno de estos tres textos (son los valores que entiende TMDB en sort_by)
 export type Orden = 'popularity.desc' | 'vote_average.desc' | 'primary_release_date.desc'
 
+// Las opciones del Select "Ordenar": el valor que se manda a la API y el texto que ve el usuario
 export const ORDENES: { valor: Orden; texto: string }[] = [
   { valor: 'popularity.desc', texto: 'Más populares' },
   { valor: 'vote_average.desc', texto: 'Mejor calificadas' },
   { valor: 'primary_release_date.desc', texto: 'Más recientes' },
 ]
 
+// "2024-03-01" -> "2024". Si la fecha viene vacía, "s/f" (sin fecha)
 export function anio(fecha: string) {
   return fecha ? fecha.slice(0, 4) : 's/f'
 }
